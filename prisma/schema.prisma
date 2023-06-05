@@ -6,6 +6,23 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int       @id @default(autoincrement())
+  email    String    @unique
+  name     String?
+  password String
+  products Product[]
+}
+
+model Product {
+  id        Int      @id @default(autoincrement())
+  title     String   @db.VarChar(255)
+  content   String?
+  price     Float
+  buyer   User     @relation(fields: [buyerId], references: [id])
+  buyerId   Int
 }
