@@ -1,11 +1,12 @@
 import 'express-async-errors';
 import cors from 'cors'
 import express from 'express'
+import router from './routes';
 
 class App {
   public app: express.Express;
 
-  constructor() {
+  constructor(private routers = router) {
     this.app = express();
     this.app.use(cors());
     this.config();
@@ -21,6 +22,7 @@ class App {
 
     this.app.use(express.json());
     this.app.use(accessControl);
+    this.app.use(this.routers);
   }
 
   public start(PORT: string | number):void {
